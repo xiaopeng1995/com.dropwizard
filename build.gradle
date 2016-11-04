@@ -1,10 +1,12 @@
 apply plugin: 'application'
 mainClassName = "dropwizardTest.http.TestHttp"
 group 'dropwizard'
-version '1.0-SNAPSHOT'
+// Version
+version '2.0.0-SNAPSHOT'
 
 apply plugin: 'java'
-sourceCompatibility = 1.5
+apply plugin: 'maven'
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()

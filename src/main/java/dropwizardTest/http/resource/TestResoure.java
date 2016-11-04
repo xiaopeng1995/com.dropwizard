@@ -1,27 +1,54 @@
+
 package dropwizardTest.http.resource;
 
-import io.dropwizard.jersey.PATCH;
+import com.google.common.base.Optional;
+import dropwizardTest.http.entity.ResultEntity;
+import dropwizardTest.http.entity.tickets.Tickets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.security.PermitAll;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * TestResoure
+ * Tickets related resource
  */
-@Path("/test")
+@Path("/tickets")
 @Produces(MediaType.APPLICATION_JSON)
 public class TestResoure {
+
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(TestResoure.class);
 
-    @Path("/{helloword}")
-    @PermitAll
-    @PATCH
-    public String Helloword(@PathParam("helloword") String productId) {
-        logger.debug("start");
-        return "Helloword!";
+    public TestResoure() {
+
     }
+
+    @GET
+    public ResultEntity gettickets(@HeaderParam("Accept-Language") @DefaultValue("zh") String lang,
+                                   @QueryParam("username") Optional<String> username) {
+        logger.debug("进入GET: tickets");
+        Map<String, String> r = new HashMap<>();
+        if (username.isPresent())
+            r.put("username", username.get());
+        else
+            r.put("username", "不存在");
+        return new ResultEntity<>(r);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public ResultEntity posttickets(@HeaderParam("Accept-Language") @DefaultValue("zh") String lang,
+                                    @Valid Tickets tickets) {
+        logger.debug("Process signIn request: {}", tickets);
+        // TODO: validate name password mobile email format
+        String username = tickets.getUsername();
+        Map<String, Object> r = new HashMap<>();
+        r.put("username", username);
+        return new ResultEntity<>(r);
+    }
+
 }
