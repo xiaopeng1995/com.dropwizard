@@ -1,0 +1,18 @@
+apply plugin: 'application'
+mainClassName = "dropwizardTest.http.TestHttp"
+group 'dropwizard'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    // dropwizard
+    compile 'io.dropwizard:dropwizard-core:0.9.2'
+    compile 'io.dropwizard:dropwizard-auth:0.9.2'
+}
